@@ -1,0 +1,15 @@
+setcps(150/60/4)
+
+hush
+
+do
+  rpat 1
+  d1 $ stack [
+    bd "0(3,8)"
+             ]
+
+do
+  rpat 2
+  d1 $ stack [
+    bd "0 [2 12] 12 [<~ 8 [2*2]>]"
+             ]

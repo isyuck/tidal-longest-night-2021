@@ -1,0 +1,46 @@
+rytmMap :: String -> Double
+rytmMap "bd" = 0
+rytmMap "sd" = 1
+rytmMap "rs" = 2
+rytmMap "cp" = 3
+rytmMap "bt" = 4
+rytmMap "lt" = 5
+rytmMap "mt" = 6
+rytmMap "ht" = 7
+rytmMap "ch" = 8
+rytmMap "oh" = 9
+rytmMap "cy" = 10
+rytmMap "cb" = 11
+rytmMap _ = 0
+--
+-- like tidals `s` but for the rytm
+rytm :: Pattern String -> ControlPattern
+rytm p = midichan (fmap rytmMap p) # octave 3 # s "rytm"
+r = rytm
+--
+-- another way to pattern tracks
+bd p = n p # r "bd"
+sd p = n p # r "sd"
+rs p = n p # r "rs"
+cp p = n p # r "cp"
+bt p = n p # r "bt"
+lt p = n p # r "lt"
+mt p = n p # r "mt"
+ht p = n p # r "ht"
+ch p = n p # r "ch"
+oh p = n p # r "oh"
+cy p = n p # r "cy"
+cb p = n p # r "cb"
+--
+-- solo a track
+solo :: Pattern String -> ControlPattern -> ControlPattern
+solo p = unfix (struct "") (midichan (fmap rytmMap p))
+--
+-- mute a track
+mute :: Pattern String -> ControlPattern -> ControlPattern
+mute p = fix (struct "") (midichan (fmap rytmMap p))
+--
+-- change the pattern bank (kits can be associated with patterns
+-- so this is a nice way to change kit)
+rpat :: Pattern Double -> IO ()
+rpat n = asap $ progNum (n - 1) # s "rytm" # midichan 15
