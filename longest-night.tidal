@@ -5,11 +5,24 @@ hush
 do
   rpat 1
   d1 $ stack [
-    bd "0(3,8)"
+    bd "0(5,8)"
+    ,
+    sd "0*16"
+    ,
+    cp "0(9,16)"
+    ,
+    rs "0*8 ~"
              ]
 
 do
   rpat 2
   d1 $ stack [
     bd "0 [2 12] 12 [<~ 8 [2*2]>]"
+             ]
+
+do
+  d1 $ stack [
+    fast 2 $ bd "0(<0 32>,32)"
+    ,
+    cp "0*4"
              ]
