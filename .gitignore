@@ -1,0 +1,13 @@
+*.DS_Store
+.idea
+*.log
+tmp/
+bin/data/*
+.cache/
+compile_commands.json
+config.make
+*.xcodeproj
+*.xcconfig
+obj/
+*.plist
+*.app

@@ -2,27 +2,156 @@ setcps(150/60/4)
 
 hush
 
+once $ r "rs*4" # n 0
+
+d1 $ whenmod 4 2 (density 0) $ r "<[ch(5,8) ~] [cp*4]>" # n 0
+
+d1 $ r "<rs*16 rs*2>" # n 0
+
+d1 $ r "bd" # n 0
+
+---------------------------------------------------------------------------------------
+
+do
+  let cycbp = binaryN 16 2348
+  rpat 0
+  d1
+    $ degrade
+    $ mute "[cy, cb]"
+    $ stack [
+    whenmod 8 4 ((|+ n "-24") . slow 2)
+    $ stack [
+    struct (binaryN 32 $ segment 1 $ irand 200) $ r "ch" # n 0
+    ,
+    r "~ [oh*2]" # n 0
+    ,
+    slow 4 $ stack [
+    struct cycbp $ r "cy"
+    ,
+    struct (inv cycbp) $ r "cb"
+          ] # n 0
+    ]
+    ]
+
+---------------------------------------------------------------------------------------
+
+do
+  let cycbp = binaryN 16 2348
+  rpat 0
+  d1
+    -- $ solo "sd"
+    -- $ struct "t*64"
+    $ sometimes (ply 2)
+    $ degradeBy (segment 16 $ slow 8 $ range 0 0.9 $ sine)
+    $ stack [
+    whenmod 4 2 (density 0)
+    $ whenmod 8 4 ((|+ n "-24") . slow 2)
+    $ stack [
+    struct (binaryN 32 $ segment 1 $ irand 200) $ r "ch" # n 0
+    ,
+    r "~ oh" # n 0
+    ,
+    stack [
+    struct (cycbp) $ r "cy"
+    ,
+    struct (inv $ cycbp) $ r "cb"
+          ] # n 0
+    ]
+    ,
+    compress (0.5, 1) . slow 2
+    $ stack [
+        struct (inv $ binaryN 16 (slow 4 $ segment 4 $ irand 2139))
+        $ r "rs" # n 0
+        ,
+        struct (binaryN 16 (slow 4 $ segment 4 $ irand 2139))
+        $ r "cp" # n 0
+          ]
+    ,
+    whenmod 5 3 (density "<2 0>")
+    $ r "bd" # n 0
+    ]
+
+---------------------------------------------------------------------------------------
+
+do
+  let cycbp = binaryN 16 2348
+  rpat 0
+  d1
+    -- $ solo "sd"
+    -- $ struct "t(5,8)"
+    -- $ sometimes (ply 2)
+    -- $ degradeBy (segment 16 $ slow 8 $ sine)
+    -- $ struct "<t*16>" . slow 4
+    -- $ solo "[bt,bd]"
+    -- $ struct "<t*16 t*4>" . slow 8
+    $ stack [
+    (|- n (segment 4 $ irand 24))
+    $ stack [
+            struct (inv $ binaryN 16 (slow 4 $ segment 4 $ irand 2139))
+            $ r "ch" # n 0
+            ,
+            struct (binaryN 16 (slow 4 $ segment 4 $ irand 2139))
+            $ r "oh" # n 0
+        ]
+    ,
+    whenmod 8 4 (density 0)
+    $ every 3 ((|+ n 12) . fast 2)
+    $ slow 2 $ stack [
+    r "bd . ~" # n 0
+    ,
+    r "[~ bt] bt(5,8)" # n 0
+          ]
+    ]
+
+---------------------------------------------------------------------------------------
+
 do
   rpat 1
-  d1 $ stack [
-    bd "0(5,8)"
+  d1
+    $ slow 16
+    $ stack [
+    whenmod 15 9 (density 0)
+    $ stack [
+    slow "<1 2>/4"
+    $ off "e" (# r "cp")
+    $ r "rs(5,8)" # n "0 [4 2]"
+          ]
     ,
-    sd "0*16"
+    whenmod 5 3 (density 0)
+    $ degradeBy 0.1
+    $ (|+ n (segment 2 $ range (-4) 4 $ slow 4 $ sine))
+    $ stack [
+        r "ch*16" # n 0
+        ,
+        r "oh(3,8,2)" # n 0
+          ]
     ,
-    cp "0(9,16)"
+    whenmod 12 7 (density 0)
+    $ r "bd*<8 0>" # n "0 4"
     ,
-    rs "0*8 ~"
+    r "mt(<0 4>,16)" # n 0
              ]
 
-do
-  rpat 2
-  d1 $ stack [
-    bd "0 [2 12] 12 [<~ 8 [2*2]>]"
-             ]
+---------------------------------------------------------------------------------------
 
 do
-  d1 $ stack [
-    fast 2 $ bd "0(<0 32>,32)"
+  rpat 1
+  d1
+    $ struct (binaryN 32 8273)
+    $ stack [
+    stack [
+    whenmod 8 5 (slow 8)
+    $ every 2 (off "e" (# r "cp"))
+    $ r "rs*<4 2>/2" # n "0 [4 2]"
     ,
-    cp "0*4"
-             ]
+    degrade $ stack [
+    r "cy*16" # n (irand 12)
+    ,
+    every 3 (density 0) $ r "cb*8" # n 0
+          ]
+    ,
+    r "sd*4" # n 0
+    ]
+    ]
+
+hush

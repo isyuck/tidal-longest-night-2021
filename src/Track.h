@@ -8,7 +8,7 @@
 
 #define MAX_DELTA 100
 #define IMG_PER_TRACK 10
-#define IMG_PLANE_RES 32
+#define IMG_PLANE_RES 8
 
 class Track {
 public:
@@ -17,6 +17,7 @@ public:
   void update();
   void draw();
   void hit();
+  void setColor(float r, float g, float b, float a);
   TrackNumber number;
 
 private:
@@ -27,13 +28,14 @@ private:
   ofMesh mesh;
   ofVec3f desiredRot = ofVec3f();
   ofVec3f actualRot = ofVec3f();
-  ofVec3f rotationEuler = ofVec3f(0, 0, 0);
+  ofVec4f rotation = ofVec4f(0, 0, 0, 0);
   std::vector<float> actualzs;
   float desiredScale = 1.0f;
   float actualScale = 1.0f;
-  float actualOpacity = 0.0f;
-  float desiredOpacity = 0.0f;
+  ofColor color = ofColor(255, 255, 255, 255);
   float initOff;
+  ofVec3f initTrans;
+  float scaleMult = 1;
 };
 
 #endif
