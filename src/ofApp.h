@@ -17,7 +17,7 @@ public:
   void update();
   void fboDraw();
   void draw();
-  void keyPressed (int key);
+  void keyPressed(int key);
 
   ofxOscReceiver osc;
   ofEasyCam camera;
@@ -26,11 +26,12 @@ public:
   // frames since any hit (max 4)
   int anyhit;
   float delta = 0.0f;
-    float bgScale = 1.0f;
+  float bgScale = 1.0f;
   ofColor backgroundColor = ofColor(0, 0, 0);
   std::vector<ofTexture> textures;
   std::size_t currentImageIndex = 0;
   ofMesh mesh;
   ofFbo fbo;
-    ofTexture tex;
+  ofTexture tex;
+  bool doClear = false;
 };

@@ -16,7 +16,7 @@ void ofApp::setup() {
   tex.allocate(1920, 1080, GL_RGBA);
 
   fbo.begin();
-  ofClear(255,255,255,0);
+  ofClear(255, 255, 255, 0);
   fbo.end();
 
   ofPlanePrimitive plane(512, 320, 16, 16);
@@ -39,6 +39,8 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
+
+  doClear = false;
 
   if (anyhit > 0) {
     anyhit--;
@@ -77,6 +79,9 @@ void ofApp::update() {
         if (midichan < TRACK_COUNT) {
           tracks.at(midichan).hit();
         }
+        if (midichan == BD or midichan == BT) {
+          doClear = true;
+        }
       }
 
     } catch (...) {
@@ -109,6 +114,20 @@ void ofApp::update() {
 
 void ofApp::fboDraw() {
 
+  if (anyhit == 4) {
+    // ofClear(255, 255, 255, 200);
+    for (int i = 0; i < mesh.getNumVertices(); i++) {
+      auto v = mesh.getVertex(i);
+      v.z += ofRandom(-30, 30);
+      // v.z = ofRandom(-10, 10);
+      mesh.setVertex(i, v);
+    }
+  }
+
+  if (doClear) {
+    ofClear(255, 255, 255, 25);
+  }
+
   ofSetBackgroundColor(0, 255, 0);
   ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 
@@ -117,7 +136,7 @@ void ofApp::fboDraw() {
   ofRotateZDeg(180);
   ofRotateYDeg(180);
   ofScale(bgScale);
-  ofSetColor(255,255,255, 100);
+  ofSetColor(255, 255, 255, 100);
   textures.at(currentImageIndex).bind();
   mesh.draw();
   textures.at(currentImageIndex).unbind();
@@ -133,21 +152,11 @@ void ofApp::fboDraw() {
     ofPopStyle();
   }
   camera.end();
-
-  if (anyhit == 4) {
-    ofClear(255,255,255,1);
-    for (int i = 0; i < mesh.getNumVertices(); i++) {
-      auto v = mesh.getVertex(i);
-      v.z += ofRandom(-100, 100);
-      // v.z = ofRandom(-10, 10);
-      mesh.setVertex(i, v);
-    }
-  }
 }
 
 void ofApp::draw() {
   fbo.begin();
-  ofSetColor(255,255,255,200);
+  ofSetColor(255, 255, 255, 200);
   fboDraw();
   fbo.end();
   ofDisableBlendMode();
@@ -158,8 +167,7 @@ void ofApp::draw() {
   tex.draw(0, 0);
 }
 
-
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
   if (key == '=') {
     if (bgScale <= 20.0f) {
       bgScale += 0.2f;
@@ -167,6 +175,6 @@ void ofApp::keyPressed(int key){
   } else if (key == '-') {
     if (bgScale >= 0.6f) {
       bgScale -= 0.2f;
-  }
+    }
   }
 }

@@ -2,11 +2,11 @@ setcps(150/60/4)
 
 hush
 
-once $ r "rs*4" # n 0
+once $ r "bd" # n 0
 
 d1 $ whenmod 4 2 (density 0) $ r "<[ch(5,8) ~] [cp*4]>" # n 0
 
-d1 $ r "<rs*16 rs*2>" # n 0
+d1 $ r "<bd*16 bd*2>" # n 0
 
 d1 $ r "bd" # n 0
 
@@ -151,7 +151,112 @@ do
           ]
     ,
     r "sd*4" # n 0
+    ,
+    r "bd/2" # n 0
     ]
     ]
+
+---------------------------------------------------------------------------------------
+
+do
+  rpat 1
+  d1 $ degradeBy 0.3
+    $ stack [
+    whenmod 5 3 (off "e" (# r "cp"))
+    $ ply 2
+    $ slow 2
+    $ euclid "<3 5>" 8
+    $ n "{a c g c f e}%1"
+    # r "rs"
+    ,
+    whenmod 5 3 (density 0)
+    $ r "bd*<4 2>" # n 0
+    ,
+    whenmod 5 3 (density 0)
+    $ degradeBy 0.1
+    $ (|+ n (segment 2 $ range (-4) 4 $ slow 4 $ sine))
+    $ stack [
+        r "ch*16" # n 0
+        ,
+        r "oh(3,8,2)" # n 0
+          ]
+    ,
+    r "cy/5" # n 0
+    ,
+    r "~ bt" # n 0
+             ]
+
+---------------------------------------------------------------------------------------
+
+  do
+  rpat 2
+  let hh = binaryN 32 (segment 1 $ irand 8232)
+  d1
+    -- $ whenmod 16 12 (density 0)
+    $ stack [
+    degradeBy (segment 16 $ slow 8 $ range 0 1 sine)
+    -- $ struct "t(<2 4>,16)" . slow 2
+    $ struct "t*<4 8>" . slow 2
+    $ every 5 (solo "mt")
+    -- $ whenmod 4 2 (struct "t t*4" . slow 2)
+    -- $ superimpose (# r ("bd" # n "-4"))
+    $ (("4" ~>) . sometimes (plyWith 2 (|+ n "<0 -2 -4 [8 4]>")))
+    -- $ whenmod 8 4 ((|- n "12") . slow 4)
+    -- $ every 2 rev
+    $ slow "{8 4}%2"
+    $ chunk 4 (slow 4)
+    $ whenmod 8 4 (iter 4)
+    $ mute "[cb]"
+    $ stack [
+    r "mt*<32 16 64>" # n "<0 [4 2]>"
+    ,
+    r "bt" # n 0
+    ,
+    ("e" ~>) $ r "lt*<8 4>" # n 0
+    ,
+    r "ht*8" # n "<[0 8] 4>"
+    ,
+    r "cp(<3 5 0>,8)" # n 0
+    ,
+    off "q" (# r "cy")
+    $ r "cb*4" # n "2 4 2 0"
+    ,
+    r "bd*<0 2 4 8>" # n 0
+             ]
+    ,
+    every 2 (density 0)
+    $ slow 2 $ stack [
+    struct (inv $ hh) $ r "ch" # n 0
+    ,
+    struct hh $ r "oh" # n 0
+    -- ,
+    -- r "bd(5,8)" # n 0
+          ]
+            ]
+
+---------------------------------------------------------------------------------------
+
+do
+  rpat 2
+  d1
+    $ whenmod 16 8 (iter 8 . struct "t*<8 4>" . slow 2)
+    $ stack [
+    r "bt" # n 0
+    ,
+    ("e" ~>) $ r "lt*<8 4>" # n 0
+    ,
+    r "ht*8" # n "<[0 8] 4>"
+    ,
+    off "e" (# r "ch")
+    $ slow 2 $ r "oh*<4 8 2 16>" # n "{0 4 2}%8"
+    ,
+    r "cb*2" # n "<a c>"
+    ,
+    r "bd(<0 0 3 5>,8)" # n 0
+    ,
+    r "mt*2" # n 0
+             ]
+
+---------------------------------------------------------------------------------------
 
 hush
