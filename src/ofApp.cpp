@@ -132,7 +132,7 @@ void ofApp::fboDraw() {
   ofEnableBlendMode(OF_BLENDMODE_MULTIPLY);
 
   ofPushMatrix();
-  ofTranslate(ofGetWidth() / 8, ofGetHeight() / 8);
+  ofTranslate(ofGetWidth() / 4, ofGetHeight() / 4);
   ofRotateZDeg(180);
   ofRotateYDeg(180);
   ofScale(bgScale);
@@ -161,7 +161,7 @@ void ofApp::draw() {
   fbo.end();
   ofDisableBlendMode();
 
-  ofScale(4, 4);
+  ofScale(2, 2);
   tex = fbo.getTexture();
   tex.setTextureMinMagFilter(GL_NEAREST, GL_NEAREST);
   tex.draw(0, 0);

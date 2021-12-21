@@ -188,25 +188,18 @@ do
 
 ---------------------------------------------------------------------------------------
 
-  do
+do
   rpat 2
   let hh = binaryN 32 (segment 1 $ irand 8232)
   d1
     -- $ whenmod 16 12 (density 0)
+    $ slow 2
     $ stack [
     degradeBy (segment 16 $ slow 8 $ range 0 1 sine)
-    -- $ struct "t(<2 4>,16)" . slow 2
-    $ struct "t*<4 8>" . slow 2
-    $ every 5 (solo "mt")
-    -- $ whenmod 4 2 (struct "t t*4" . slow 2)
-    -- $ superimpose (# r ("bd" # n "-4"))
-    $ (("4" ~>) . sometimes (plyWith 2 (|+ n "<0 -2 -4 [8 4]>")))
-    -- $ whenmod 8 4 ((|- n "12") . slow 4)
-    -- $ every 2 rev
-    $ slow "{8 4}%2"
-    $ chunk 4 (slow 4)
+    -- $ mute "[bt]"
+    $ mute "cb"
+    $ slow 2
     $ whenmod 8 4 (iter 4)
-    $ mute "[cb]"
     $ stack [
     r "mt*<32 16 64>" # n "<0 [4 2]>"
     ,
@@ -229,8 +222,6 @@ do
     struct (inv $ hh) $ r "ch" # n 0
     ,
     struct hh $ r "oh" # n 0
-    -- ,
-    -- r "bd(5,8)" # n 0
           ]
             ]
 
@@ -258,5 +249,24 @@ do
              ]
 
 ---------------------------------------------------------------------------------------
+
+do
+  rpat 3
+  let p = binaryN 32 (segment 1 $ slow 4 $ irand 8232)
+  d1
+    $ stack [
+    slow 1
+    $ whenmod 4 2 (degradeBy 0.9)
+    $ stack [
+    struct p $ r "cp" # n 0
+    ,
+    struct (inv p) $ r "rs" # n 0
+          ]
+    ,
+    superimpose (# r "bd")
+    $ r "sd/8" # n 0
+    ,
+    slow 2 $ (2 ~>) $ whenmod 4 2 (density 0) $ n "0*16" # r (choose ["ch", "oh"])
+          ]
 
 hush
