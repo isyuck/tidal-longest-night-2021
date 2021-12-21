@@ -1,0 +1,120 @@
+setcps(150/60/4)
+
+hush
+
+do
+  rpat 3
+  let p = binaryN 32 (segment 1 $ slow 1 $ irand 8232)
+  d1
+    $ stut 4 1 "e"
+    $ slow 16
+    $ mute "[rs, cp]"
+    $ struct "t*8" . slow 2
+    -- $ solo "[ch, oh, bt, rs, mt]"
+    $ off "h" rev
+    -- $ every 2 (struct "t*4 t*2" . slow 2)
+    -- $ mute "[bd, sd]"
+    -- $ mute "[ch, oh]"
+    -- $ off "h" id
+    $ slow 1
+    $ stack [
+    slow 1
+    $ whenmod 4 2 (degradeBy 0.8)
+    $ stack [
+    struct p $ r "cp" # n 0
+    ,
+    superimpose (# r "bt")
+    $ struct (inv p) $ r "rs" # n (irand 12)
+          ]
+    ,
+    r "bd(<0 5 3 3>,8)" # n 0
+    ,
+    superimpose (# r "bd")
+    $ r "sd/8" # n 0
+    ,
+    slow 2 $ (2 ~>) $ whenmod 4 2 (density 0) $ n "0*16" # r (choose ["ch", "oh"])
+    ,
+    whenmod 8 4 (density 0)
+    $ stut (irand 16) 1 "{e e s q s e s q s s e}%16"
+    $ r "mt/4" # n 0
+          ]
+
+do
+  rpat 2
+  let hh = binaryN 32 (segment 1 $ irand 8232)
+  d1
+    -- $ whenmod 8 6 (density 0)
+    -- $ degradeBy (segment 16 $ slow 8 $ range 0 0.8 sine)
+    -- $ every 2 (struct "t*8 f" . slow 8)
+    -- $ superimpose (# r "ch")
+    $ slow "2 4"
+    $ (|+ n "<0 -12>")
+    $ every 2 (struct "t*32" .slow 16)
+    $ mute "[lt, ht, cy]"
+    $ slow 2
+    -- $ mute "[bt,cp,cy,ch,oh]"
+    $ stack [
+    mute "cb"
+    $ slow 2
+    -- $ whenmod 8 4 (iter 4)
+    $ stack [
+    r "mt*<32 16>/2" # n "<0 [4 2]>"
+    ,
+    r "bt" # n 0
+    ,
+    ("e" ~>) $ r "lt*<8 4>" # n 0
+    ,
+    r "ht*8" # n "<[0 8] 4>"
+    ,
+    r "cp(<3 5 0>,8)" # n 0
+    ,
+    off "q" (# r "cy")
+    $ r "cb*4" # n "2 4 2 0"
+    ,
+    r "bd*<0 2 4 8>" # n 0
+             ]
+    ,
+    every 2 (density 0)
+    $ slow 1 $ stack [
+    struct (inv $ hh) $ r "ch" # n 0
+    ,
+    struct hh $ r "oh" # n 0
+          ]
+            ]
+
+
+do
+  rpat 4
+  let p = binaryN 16 (segment 1 $ slow 2 $ irand 8232)
+  d1
+    -- $ solo "[rs, cp, bd]"
+    $ ply 1
+    $ slow 8
+    $ struct "t(3,8) t*4" . slow 2
+    $ ply "{4 2 8 2 1 1 1 2}%8"
+    $ solo "[bd, ch, oh]"
+    $ slow "2 1"
+    $ (|+ n "{4 2 0 0 -12 2 -8}%2")
+    $ every 3 (rev)
+    $ stack [
+    slow 2
+    $ stack [
+    struct p $ r "cp" # n (irand 12)
+    ,
+    struct (inv p) $ r "rs" # n (irand 12)
+        ]
+    ,
+    r "sd(3,8)" # n 0
+    ,
+    r "bd*2" # n 0
+    ,
+    r "ch*<16 8 4 0>" # n 0
+    ,
+    r "oh(3,8,2)" # n 0
+    ,
+    r "lt" # n 0
+            ]
+
+    thanks :-)
+
+hush
